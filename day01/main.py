@@ -48,6 +48,6 @@ def get_score(left_list, right_list):
 
 left, right = get_lists()
 distance = get_distance(left, right)
-print(distance)
 score = get_score(left, right)
+print(distance)
 print(score)
