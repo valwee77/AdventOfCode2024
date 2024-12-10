@@ -1,3 +1,5 @@
+from collections import Counter
+
 def get_lists():
 
     #1. read input file and split lines into 2 arrays
@@ -34,7 +36,7 @@ def get_distance(left_list, right_list):
 
 
 def get_score(left_list, right_list):
-    count = 0
+    """    count = 0
     score = 0
     for loc in left_list:
         for i in range(len(right_list)):
@@ -42,6 +44,15 @@ def get_score(left_list, right_list):
                 count += 1
         score += (loc * count)
         count = 0
+    return score
+    """
+    #3. count items in right list
+
+    score = 0
+    counter = Counter(right_list)
+    for i in left_list:
+        if i in counter:
+            score += (i * counter[i])
     return score
 
 
