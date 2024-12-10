@@ -9,12 +9,10 @@ def get_lists():
     right_list = []
     
     with open(file_path, 'r') as file:
-        lines = file.readlines()
-
-    for line in lines:
-        left, right = line.split()
-        left_list.append(int(left))
-        right_list.append(int(right))
+        for line in file:
+            left, right = map(int, line.split())
+            left_list.append(left)
+            right_list.append(right)
     
     return left_list, right_list
 
@@ -36,20 +34,12 @@ def get_distance(left_list, right_list):
 
 
 def get_score(left_list, right_list):
-    """    count = 0
-    score = 0
-    for loc in left_list:
-        for i in range(len(right_list)):
-            if right_list[i] == loc:
-                count += 1
-        score += (loc * count)
-        count = 0
-    return score
-    """
+
     #3. count items in right list
 
     score = 0
     counter = Counter(right_list)
+
     for i in left_list:
         if i in counter:
             score += (i * counter[i])
