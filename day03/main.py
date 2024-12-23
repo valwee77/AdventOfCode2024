@@ -58,6 +58,7 @@ def solve_p2(line):
     while True:
         start = line.find("do()", begin)
         stop = line.find("don't()", begin)
+        last = min(start, stop)
         if start == -1:
             if 0 < begin < stop:
                 eqList = clean_line(line[begin:stop])
