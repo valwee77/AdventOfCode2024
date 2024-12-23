@@ -46,9 +46,15 @@ def compute(eqList):
 
     return sum
 
+def solve_p1(line):
+    eqList = clean_line(line)
+    total = compute(eqList)
+    return total
 
+def solve_p2(line):
+    return 0 
 
 line = read_line()
-eqList = clean_line(line)
-sum = compute(eqList)
-print(sum)
+p1 = solve_p1(line)
+p2 = solve_p2(line)
+print(p1)
