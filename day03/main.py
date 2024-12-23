@@ -38,13 +38,13 @@ def multiply(x,y):
 
 def compute(eqList):
     
-    sum = 0
+    total = 0
 
     for eq in eqList:
         x, y = map(int, eq.split(','))
-        sum += multiply(x,y)
+        total += multiply(x,y)
 
-    return sum
+    return total
 
 def solve_p1(line):
     eqList = clean_line(line)
@@ -52,9 +52,34 @@ def solve_p1(line):
     return total
 
 def solve_p2(line):
-    return 0 
+    begin = 0
+    total = 0
+    end = len(line)
+    while True:
+        start = line.find("do()", begin)
+        stop = line.find("don't()", begin)
+        if start == -1:
+            if 0 < begin < stop:
+                eqList = clean_line(line[begin:stop])
+                total += compute(eqList)
+            elif 0 < begin < end:
+                eqList = clean_line(line[begin:end])
+                total += compute(eqList)
+            break
+        elif stop == -1:
+            if 0 < begin < end:
+                eqList = clean_line(line[begin:end])
+                total += compute(eqList)
+            break
+
+        if begin < last:
+            eqList = clean_line(line[begin:last])
+            total += compute(eqList)
+        
+        begin = start+1
+    return total
 
 line = read_line()
 p1 = solve_p1(line)
 p2 = solve_p2(line)
-print(p1)
+print(p2)
