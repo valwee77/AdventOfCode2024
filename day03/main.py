@@ -1,5 +1,8 @@
 def read_line():
 
+    # read input file and output a single line
+    # output: single line of corrupted data
+
     file_path = 'input.txt'
 
     with open(file_path, 'r') as file:
@@ -8,6 +11,11 @@ def read_line():
     return line
 
 def clean_line(line):
+
+    # extract relevant equations from a corrupted line
+    # input: corrupted line
+    # output: list of "x,y" where x and y are numbers to be multiplied together
+
     begin = 0
     eqList = []
     while True:
@@ -20,6 +28,7 @@ def clean_line(line):
         eq = ''
         for i in range(start + 4, end):
             char = line[i]
+            # if character in 'mul()' is not a number or not a comma, exit loop and empty eq
             if not (char.isdigit() or char == ','):
                 eq = ''
                 break
@@ -38,6 +47,10 @@ def multiply(x,y):
 
 def compute(eqList):
     
+    # finds the sum of all the multiplied numbers
+    # input: list of "x,y" where x and y are numbers to be multiplied together
+    # output: total of multiplied numbers
+
     total = 0
 
     for eq in eqList:
@@ -48,39 +61,30 @@ def compute(eqList):
 
 def solve_p1(line):
     eqList = clean_line(line)
-    total = compute(eqList)
-    return total
+    return compute(eqList)
 
 def solve_p2(line):
-    begin = 0
-    total = 0
-    end = len(line)
-    while True:
-        start = line.find("do()", begin)
-        stop = line.find("don't()", begin)
-        last = min(start, stop)
-        if start == -1:
-            if 0 < begin < stop:
-                eqList = clean_line(line[begin:stop])
-                total += compute(eqList)
-            elif 0 < begin < end:
-                eqList = clean_line(line[begin:end])
-                total += compute(eqList)
-            break
-        elif stop == -1:
-            if 0 < begin < end:
-                eqList = clean_line(line[begin:end])
-                total += compute(eqList)
-            break
 
-        if begin < last:
-            eqList = clean_line(line[begin:last])
-            total += compute(eqList)
+    # find do()s and don't()s. when do(), compute multiplications. when don't(), do not compute multiplications.
+
+    enabled = True
+    temp = ''
         
-        begin = start+1
-    return total
+    for i in range(len(line)):
+        if line[i:i+4] == "do()":
+            enabled = True
+        if line[i:i+7] == "don't()":
+            enabled = False
+
+        if enabled:
+            temp += line[i]
+            
+    eqList = clean_line(temp)
+
+    return compute(eqList) 
 
 line = read_line()
 p1 = solve_p1(line)
 p2 = solve_p2(line)
+print(p1)
 print(p2)
