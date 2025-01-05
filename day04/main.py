@@ -84,7 +84,27 @@ def diagonal_left(crossword, find_word):
                 total += 1
     return total
 
-def sum(crossword, find_word):
+def cross(crossword, find_word):
+
+    x = int((len(find_word)-1)/2) # center index of find_word
+    total = 0
+
+    for i in range(x, len(crossword)-x):
+        for j in range(x, len(crossword[0])-x):
+            if crossword[i][j] == find_word[x]:
+                letter = x
+                while letter > 0:
+                    d1 = [crossword[i-letter][j-letter], crossword[i+letter][j+letter]]
+                    d2 = [crossword[i-letter][j+letter], crossword[i+letter][j-letter]]
+
+                    if (d1 == [find_word[letter-1], find_word[letter+1]] or d1 == [find_word[letter+1], find_word[letter-1]]) \
+                        and (d2 == [find_word[letter-1], find_word[letter+1]] or d2 == [find_word[letter+1], find_word[letter-1]]):
+                        total += 1
+                    letter -= 1
+
+    return total
+
+def p1(crossword, find_word):
 
     # sum of times a word appears in a crossword
 
@@ -102,7 +122,10 @@ def sum(crossword, find_word):
     return total
 
 
-find_word = ["X", "M", "A", "S"]
+p1_find_word = ["X", "M", "A", "S"]
+p2_find_word = ["M", "A", "S"]
 crossword = get_crossword()
-total = sum(crossword, find_word)
-print("total =", total)
+p1 = p1(crossword, p1_find_word)
+print("p1 =", p1)
+p2 = cross(crossword, p2_find_word)
+print("p2 =", p2)
