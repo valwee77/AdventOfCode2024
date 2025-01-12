@@ -22,15 +22,21 @@ def read_data():
     return rules, page_set
 
 def check_rule(rules, pages):
-    for page in pages[::-1]:
-        test = rules[page]
-        print(test)
-
+    page_positions = {page: i for i, page in enumerate(pages)}
+    for page in pages:
+        for after in rules[page]:
+            if after in page_positions and page_positions[after] < page_positions[page]:
+                return False
+    return True
 
 def check_order(rules, page_set):
+    total = 0
     for pages in page_set:
-        check_rule(rules, pages)
-
+        if check_rule(rules, pages):
+            middle = len(pages) // 2
+            total += pages[middle]
+    return total
 
 rules, page_set = read_data()
-check_order(rules, page_set)
+total = check_order(rules, page_set)
+print(total)
