@@ -31,7 +31,7 @@ def check_rule(rules, pages):
     return True
 
 def order_pages(rules, pages):
-    #orders incorrectly ordered pages
+    #orders incorrectly ordered pages by swapping 
     
     i = 0
     while i < len(pages):
@@ -50,7 +50,7 @@ def order_pages(rules, pages):
 def check(rules, page_set):
     # sums up the middle pages for ordered pages and unordered pages
     ordered_total = 0
-    unordered_total = 0
+    reordered_total = 0
     for pages in page_set:
         if check_rule(rules, pages):
             middle = len(pages) // 2
@@ -59,11 +59,10 @@ def check(rules, page_set):
             ordered_pages = order_pages(rules, pages)
             if check_rule(rules, ordered_pages):
                 middle = len(ordered_pages) // 2
-                unordered_total += ordered_pages[middle]
+                reordered_total += ordered_pages[middle]
 
-
-    return ordered_total, unordered_total
+    return ordered_total, reordered_total
 
 rules, page_set = read_data()
-ordered_total, unordered_total = check(rules, page_set)
-print(ordered_total, unordered_total)
+ordered_total, reordered_total = check(rules, page_set)
+print(ordered_total, reordered_total)
